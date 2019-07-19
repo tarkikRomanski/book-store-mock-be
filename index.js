@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const port = process.env.PORT || 8080;
+
 // Mock data
 const books = require('./data/books');
 const categories = require('./data/categories');
@@ -120,6 +122,4 @@ function prepareBookItem(item) {
     }
 }
 
-app.listen(3000, function () {
-    console.log('Testing server listening on port 3000!');
-});
+app.listen(port, () => console.log(`Testing server listening on port ${port}!`));
