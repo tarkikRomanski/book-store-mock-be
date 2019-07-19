@@ -1,23 +1,23 @@
-#book-store-mock-be
+# book-store-mock-be
 
 Books Quantity: **1000**
 
 Category Quantity: **10**
 
-###Endpoint for testing
+### Endpoint for testing
 - `https://book-store-mock-be.herokuapp.com/api/books?page=1` - list of the all books with pagination
 - `https://book-store-mock-be.herokuapp.com/api/{category}/books?page=1` - list of the books by category with pagination
 - `https://book-store-mock-be.herokuapp.com/api/books/{bookId}` - a book by id
 - `https://book-store-mock-be.herokuapp.com/api/categories` - list of the categories without pagination
 
-###Response structure
+### Response structure
 - `items` - list of the items which requested
 - `page` = the current page
 - `pageCount` - quantity of the all pages by request
 - `nextPage` - link of the next page(`null` when current page is the last)
 - `prevPage` - link of the prev page(`null` when current page is the first)
 
-###Data structure
+### Data structure
 - **A book from list:**
     ```json
     {
