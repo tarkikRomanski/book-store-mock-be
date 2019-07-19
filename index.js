@@ -57,21 +57,13 @@ function pagination(items, currentPage, pageQuantity, baseUrl, preparingFunction
         currentPage = pageQuantity;
     }
 
-    const returnData = {
-        "page": currentPage,
-        "pageCount": pageQuantity,
-        "items": items.slice(currentPage * perPage - perPage, currentPage * perPage).map(preparingFunction)
+    return {
+        page: currentPage,
+        pageCount: pageQuantity,
+        items: items.slice(currentPage * perPage - perPage, currentPage * perPage).map(preparingFunction),
+        prevPage: currentPage > 1 ? `${baseUrl}?page=${currentPage - 1}` : null,
+        nextPage: currentPage !== pageQuantity ? `${baseUrl}?page=${currentPage + 1}` : null,
     };
-
-    if (currentPage > 1) {
-        returnData.prevPage = `${baseUrl}?page=${currentPage - 1}`;
-    }
-
-    if (currentPage !== pageQuantity) {
-        returnData.nextPage = `${baseUrl}?page=${currentPage + 1}`;
-    }
-
-    return returnData;
 }
 
 function calculatePages(items, perPage = 15) {
