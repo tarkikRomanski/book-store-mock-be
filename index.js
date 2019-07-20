@@ -9,6 +9,14 @@ const categories = require('./data/categories');
 
 const booksPageQuantity = calculatePages(books);
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
+});
+
 app.get('/api/books', (req, res) => {
     const page = parseInt(req.query.page || 1);
     const baseUrl = `${req.protocol}://${req.get('host')}/api/books`;
