@@ -52,17 +52,37 @@ app.get('/api/categories', (req, res) => {
     res.json(categories);
 });
 
+app.get('/api/search', (req, res) => {
+    if (!req.query.s) {
+        return res.json([]);
+    }
+
+    const searchString = req.query.s.toLowerCase();
+    const fullSearch = +(req.query.full || 0);
+    const page = parseInt(req.query.page || 1);
+    const foundBooks = books.filter(item => item.title.toLowerCase().indexOf(searchString) > -1);
+    const baseUrl = `${req.protocol}://${req.get('host')}/api/search?s=${searchString}&full=${fullSearch}`;
+
+    fullSearch
+        ? res.json(pagination(foundBooks, page, calculatePages(foundBooks), baseUrl, prepareBookList))
+        : res.json(foundBooks.slice(0,9).map(prepareBookBasic));
+});
+
 function pagination(items, currentPage, pageQuantity, baseUrl, preparingFunction = item => item, perPage = 15) {
     if (currentPage > pageQuantity) {
         currentPage = pageQuantity;
+    }
+
+    if (baseUrl.indexOf('?') < 0) {
+        baseUrl += '?';
     }
 
     return {
         page: currentPage,
         pageCount: pageQuantity,
         items: items.slice(currentPage * perPage - perPage, currentPage * perPage).map(preparingFunction),
-        prevPage: currentPage > 1 ? `${baseUrl}?page=${currentPage - 1}` : null,
-        nextPage: currentPage !== pageQuantity ? `${baseUrl}?page=${currentPage + 1}` : null,
+        prevPage: currentPage > 1 ? `${baseUrl}&page=${currentPage - 1}` : null,
+        nextPage: currentPage !== pageQuantity ? `${baseUrl}&page=${currentPage + 1}` : null,
     };
 }
 
@@ -90,7 +110,8 @@ function prepareBookBasic(item) {
         id: item.id,
         title: item.title,
         author: item.author,
-        cover: item.cover
+        cover: item.cover,
+        price: parseFloat(item.price)
     }
 }
 

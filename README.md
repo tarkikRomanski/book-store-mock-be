@@ -9,10 +9,14 @@ Category Quantity: **10**
 - `https://book-store-mock-be.herokuapp.com/api/{category}/books?page=1` - list of the books by category with pagination
 - `https://book-store-mock-be.herokuapp.com/api/books/{bookId}` - a book by id
 - `https://book-store-mock-be.herokuapp.com/api/categories` - list of the categories without pagination
+- `https://book-store-mock-be.herokuapp.com/api/search` - list of the books by search response with optional pagination
+    - *page* - only with `full`
+    - *s* - *required, search string
+    - *full* - `1`-`true` or `0`-`false`, default `0`
 
 ### Response structure
 - `items` - list of the items which requested
-- `page` = the current page
+- `page` - the current page
 - `pageCount` - quantity of the all pages by request
 - `nextPage` - link of the next page(`null` when current page is the last)
 - `prevPage` - link of the prev page(`null` when current page is the first)
@@ -27,8 +31,8 @@ Category Quantity: **10**
         "author": "Brig Wethey",
         "categoryId": 4,
         "categoryName": "Technology",
-        "sale": null,
-        "tag": null,
+        "sale": true,
+        "tag": "new" | "used" | "best" | null,
         "in_stock": false,
         "cover": "http://dummyimage.com/700x1220.png/ff4444/ffffff"
     }
@@ -42,8 +46,8 @@ Category Quantity: **10**
         "price": 129.56,
         "author": "Brig Wethey",
         "categoryName": "Technology",
-        "sale": null,
-        "tag": null,
+        "sale": true,
+        "tag":  "new | used | best | null",
         "in_stock": false,
         "cover": "http://dummyimage.com/700x1220.png/ff4444/ffffff",
         "description": "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.",
@@ -53,7 +57,7 @@ Category Quantity: **10**
     }
     ```
 
-- **A short books data (*similar books*)**
+- **A short books data (*similar books, search without pagination*)**
     ```json
     {
         "id": 1,
